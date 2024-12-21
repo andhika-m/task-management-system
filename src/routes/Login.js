@@ -1,4 +1,3 @@
-// src/components/Login.jsx
 import React, { useState } from "react";
 import { login } from "../utils/fetch";
 import { useNavigate, Link } from "react-router-dom";
@@ -10,15 +9,23 @@ export default function Login() {
 		password: "",
 	});
 	const [showPassword, setShowPassword] = useState(false);
+	const [errorMessage, setErrorMessage] = useState("");
 	const navigate = useNavigate();
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		setErrorMessage("");
+
 		try {
 			await login(credentials);
 			navigate("/dashboard");
 		} catch (error) {
-			console.error("Login failed:", error);
+			if (error.response) {
+				setErrorMessage("Email atau Password salah.");
+			} else {
+				setErrorMessage("Terjadi kesalahan, silakan coba lagi.");
+			}
+			console.error("Login failed");
 		}
 	};
 
@@ -31,6 +38,11 @@ export default function Login() {
 						Silahkan masukan username dan password
 					</p>
 				</div>
+				{errorMessage && ( // Menampilkan pesan error jika ada
+					<div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+						<span className="block sm:inline">{errorMessage}</span>
+					</div>
+				)}
 				<form className="mt-8 space-y-6" onSubmit={handleSubmit}>
 					<div className="space-y-4">
 						<div>

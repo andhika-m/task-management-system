@@ -27,7 +27,7 @@ api.interceptors.response.use(
 export const register = async (userData) => {
 	try {
 			const response = await api.post("/register", userData);
-			return response.data; // Kembalikan data yang diterima dari server
+			return response.data;
 	} catch (error) {
 			console.error('Registrasi Error:', error.response?.data || error.message);
 			throw error;
