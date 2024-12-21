@@ -24,14 +24,15 @@ api.interceptors.response.use(
 	}
 );
 
-// export const login = async (credentials) => {
-// 	const response = await api.post("/login", credentials);
-// 	if (response.data.token) {
-// 		localStorage.setItem("token", response.data.token);
-// 		localStorage.setItem("user", JSON.stringify(response.data.user));
-// 	}
-// 	return response.data;
-// };
+export const register = async (userData) => {
+	try {
+			const response = await api.post("/register", userData);
+			return response.data; // Kembalikan data yang diterima dari server
+	} catch (error) {
+			console.error('Registrasi Error:', error.response?.data || error.message);
+			throw error;
+	}
+};
 
 export const login = async (credentials) => {
 	try {
