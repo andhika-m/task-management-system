@@ -25,7 +25,7 @@ export default function Login() {
 			} else {
 				setErrorMessage("Terjadi kesalahan, silakan coba lagi.");
 			}
-			console.error("Login failed");
+			console.error("Login gagal");
 		}
 	};
 
@@ -38,7 +38,7 @@ export default function Login() {
 						Silahkan masukan username dan password
 					</p>
 				</div>
-				{errorMessage && ( // Menampilkan pesan error jika ada
+				{errorMessage && (
 					<div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
 						<span className="block sm:inline">{errorMessage}</span>
 					</div>

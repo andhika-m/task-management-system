@@ -10,7 +10,7 @@ export default function Dashboard() {
 	const [selectedTask, setSelectedTask] = useState(null);
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState(null);
-	const [currentPage, setCurrentPage] = useState(1); // Halaman saat ini
+	const [currentPage, setCurrentPage] = useState(1);
 	const [rowsPerPage, setRowsPerPage] = useState(10);
 	const user = JSON.parse(localStorage.getItem("user") || "{}");
 

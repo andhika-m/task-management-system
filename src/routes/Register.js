@@ -17,20 +17,28 @@ export default function Register() {
         e.preventDefault();
         setErrorMessage("");
 
+        if (credentials.password.length < 8) {
+            setErrorMessage("Panjang password minimal 8 karakter.");
+            return;
+        }
+
         try {
             await register(credentials);
+            alert("Registrasi berhasil! Silakan login.");
             navigate("/login");
         } catch (error) {
-            if (error.response) {
-                if (error.response.status === 422) {
-                    setErrorMessage(error.response.data.errors.email || error.response.data.errors.password || "Error");
+            if (error.response && error.response.data.errors) {
+                const errors = error.response.data.errors;
+                if (errors.email) {
+                    setErrorMessage("Email sudah terdaftar");
+                } else if (errors.password) {
+                    setErrorMessage(errors.password[0]);
                 } else {
                     setErrorMessage("Terjadi kesalahan, silakan coba lagi.");
                 }
             } else {
                 setErrorMessage("Terjadi kesalahan, silakan coba lagi.");
             }
-            console.error("Registrasi gagal");
         }
     };
 
@@ -51,7 +59,12 @@ export default function Register() {
                 <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
                     <div className="space-y-4">
                         <div>
-                            <label htmlFor="name" className="block text-sm font-bold text-gray-700">Nama</label>
+                            <label
+                                htmlFor="name"
+                                className="block text-sm font-bold text-gray-700"
+                            >
+                                Nama
+                            </label>
                             <input
                                 id="name"
                                 name="name"
@@ -60,11 +73,18 @@ export default function Register() {
                                 className="mt-2 block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                 placeholder="Masukan nama"
                                 value={credentials.name}
-                                onChange={(e) => setCredentials({ ...credentials, name: e.target.value })}
+                                onChange={(e) =>
+                                    setCredentials({ ...credentials, name: e.target.value })
+                                }
                             />
                         </div>
                         <div>
-                            <label htmlFor="email" className="block text-sm font-bold text-gray-700">Email</label>
+                            <label
+                                htmlFor="email"
+                                className="block text-sm font-bold text-gray-700"
+                            >
+                                Email
+                            </label>
                             <input
                                 id="email"
                                 name="email"
@@ -73,11 +93,18 @@ export default function Register() {
                                 className="mt-2 block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                 placeholder="Masukan email"
                                 value={credentials.email}
-                                onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
+                                onChange={(e) =>
+                                    setCredentials({ ...credentials, email: e.target.value })
+                                }
                             />
                         </div>
                         <div>
-                            <label htmlFor="password" className="block text-sm font-bold text-gray-700">Password</label>
+                            <label
+                                htmlFor="password"
+                                className="block text-sm font-bold text-gray-700"
+                            >
+                                Password
+                            </label>
                             <div className="relative mt-2">
                                 <input
                                     id="password"
@@ -87,7 +114,9 @@ export default function Register() {
                                     className="block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                     placeholder="Masukan password"
                                     value={credentials.password}
-                                    onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
+                                    onChange={(e) =>
+                                        setCredentials({ ...credentials, password: e.target.value })
+                                    }
                                 />
                                 <button
                                     type="button"
@@ -103,6 +132,7 @@ export default function Register() {
                             </div>
                         </div>
                     </div>
+
                     <div>
                         <button
                             type="submit"
