@@ -16,6 +16,11 @@ export default function Login() {
 		e.preventDefault();
 		setErrorMessage("");
 
+		if (credentials.password.length < 8) {
+			setErrorMessage("Panjang password minimal 8 karakter.");
+			return;
+	}
+
 		try {
 			await login(credentials);
 			navigate("/dashboard");

@@ -24,7 +24,6 @@ export default function Register() {
 
         try {
             await register(credentials);
-            alert("Registrasi berhasil! Silakan login.");
             navigate("/login");
         } catch (error) {
             if (error.response && error.response.data.errors) {
